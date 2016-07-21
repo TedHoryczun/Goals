@@ -24,7 +24,7 @@ public class Dates extends GoalDates{
         }
     }
     public double percentageComplete(){
-        return double percentage = daysTillDueDate()/startToDueDate();
+        return daysTillDueDate()/startToDueDate();
     }
 
 }
