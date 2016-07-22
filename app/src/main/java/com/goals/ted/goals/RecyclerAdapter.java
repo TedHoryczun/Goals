@@ -33,7 +33,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item, parent);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -42,8 +42,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Goal currentGoal = goalList.get(position);
         holder.title.setText(currentGoal.getTitle());
-        holder.dueDate.setText(currentGoal.daysTillDueDate());
-        holder.percentComplete.setText(currentGoal.startToDueDate());
+        holder.dueDate.setText("Due in " + String.valueOf(currentGoal.daysTillDueDate() + " days"));
+        holder.percentComplete.setText(String.valueOf(currentGoal.percentageComplete() + "%"));
 
     }
 
