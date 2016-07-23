@@ -1,5 +1,6 @@
-package com.goals.ted.goals;
+package com.goals.ted.goals.Activities;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.goals.ted.goals.Fragments.CreateGoalFragment;
 import com.goals.ted.goals.Fragments.FragmentList;
+import com.goals.ted.goals.Goal;
+import com.goals.ted.goals.R;
+import com.goals.ted.goals.RecyclerAdapter;
 
 public class MainActivity extends AppCompatActivity implements  FragmentList.OnFragmentInteractionListener{
     private Goal goal;
@@ -25,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements  FragmentList.OnF
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               System.out.println("pressed!");
+                Intent intent = new Intent(MainActivity.this, CreateGoalActivity.class);
+                startActivity(intent);
             }
         });
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new FragmentList())
