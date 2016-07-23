@@ -4,5 +4,63 @@
     android:layout_height="match_parent"
     tools:context="com.goals.ted.goals.Fragments.CreateGoalFragment">
 
+    <RelativeLayout
+        android:id="@+id/mainRelative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/floatingText"
+            android:layout_width="match_parent"
+            android:layout_height="72dp">
+
+            <EditText
+                android:id="@+id/goalTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Goal Title"
+                android:textSize="30sp" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/floatingText"
+            android:orientation="horizontal"
+            >
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/floatingStart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
+
+                <EditText
+                    android:id="@+id/datePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ellipsize="start"
+                    android:focusable="false"
+                    android:gravity="left"
+                    android:hint="Due Date"
+                    android:singleLine="true"
+                    android:text="Fri, May 12 2017" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <EditText
+                android:id="@+id/timePicker"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="1dp"
+                android:focusable="false"
+                android:layout_gravity="bottom"
+                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                android:text="Noon"
+                android:layout_weight="1"></EditText>
+        </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>
