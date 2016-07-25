@@ -5,7 +5,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.goals.ted.goals.Fragments.CreateGoalFragment;
 import com.goals.ted.goals.R;
@@ -31,9 +33,5 @@ public class CreateGoalActivity extends AppCompatActivity implements CreateGoalF
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.create_gest_menu, menu);
-        return true;
-    }
+
 }

@@ -10,11 +10,14 @@ public class Goal extends Dates{
     private String title;
     private GoalDates goalDates;
 
-    public Goal(int id, String title, Calendar startDate, Calendar endDate){
-        this.id = id;
+    public Goal(String title, Calendar startDate, Calendar endDate){
         this.title = title;
         this.setEndDate(endDate);
         this.setStartDate(startDate);
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {

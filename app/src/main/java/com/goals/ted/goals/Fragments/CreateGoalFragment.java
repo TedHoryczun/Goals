@@ -3,10 +3,15 @@ package com.goals.ted.goals.Fragments;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -14,7 +19,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.goals.ted.goals.Activities.MainActivity;
+import com.goals.ted.goals.Goal;
 import com.goals.ted.goals.R;
 
 import java.util.ArrayList;
@@ -41,14 +49,18 @@ public class CreateGoalFragment extends Fragment {
 
     private EditText timePicker;
     private EditText datePicker;
+    private EditText title;
 
     private Calendar currentTime;
+    private Calendar dueDate;
 
     private OnFragmentInteractionListener mListener;
 
     public CreateGoalFragment() {
         // Required empty public constructor
     }
+
+
 
     /**
      * Use this factory method to create a new instance of
@@ -82,10 +94,13 @@ public class CreateGoalFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=  inflater.inflate(R.layout.fragment_create_goal, container, false);
+        setHasOptionsMenu(true);
         currentTime = Calendar.getInstance();
         currentTime.setTimeInMillis(System.currentTimeMillis());
         timePicker = (EditText) v.findViewById(R.id.timePicker);
         datePicker = (EditText)v.findViewById(R.id.datePicker);
+        title = (EditText) v.findViewById(R.id.goalTitle);
+        dueDate = Calendar.getInstance();
         timePickerDialog(v);
         datePickerDialog(v);
         return v;
@@ -97,6 +112,9 @@ public class CreateGoalFragment extends Fragment {
                 DatePickerDialog dialog = new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        dueDate.set(Calendar.YEAR, year);
+                        dueDate.set(Calendar.MONTH, monthOfYear);
+                        dueDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                     }
                 }, currentTime.get(Calendar.YEAR), currentTime.get(Calendar.MONTH), currentTime.get(Calendar.DAY_OF_MONTH));
@@ -113,6 +131,8 @@ public class CreateGoalFragment extends Fragment {
                 TimePickerDialog dialog = new TimePickerDialog(v.getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        dueDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        dueDate.set(Calendar.MINUTE, minute);
 
                     }
                 }, currentTime.get(Calendar.HOUR_OF_DAY), currentTime.get(Calendar.MINUTE), false);
@@ -156,5 +176,29 @@ public class CreateGoalFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.create_gest_menu, menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.save:
+                String titleTxt = title.getText().toString();
+                if(!titleTxt.isEmpty()){
+
+                    Goal goal = new Goal(titleTxt, currentTime, dueDate);
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(), "You can't have a empty title", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+
     }
 }
