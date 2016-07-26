@@ -2,10 +2,12 @@ package com.goals.ted.goals;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -34,7 +36,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        final MyDB db = new MyDB(context);
+        final ViewHolder viewHolder = new ViewHolder(view);
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                final int position = viewHolder.getAdapterPosition();
+                Goal currentGoal = goalList.get(position);
+                Log.i("goal id: ", String.valueOf(currentGoal.getId()));
+                db.deleteRecord(currentGoal.getId());
+                notifyItemRemoved(position);
+                return true;
+            }
+        });
         return viewHolder;
     }
 

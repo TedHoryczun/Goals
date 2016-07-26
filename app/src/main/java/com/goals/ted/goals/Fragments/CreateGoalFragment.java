@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.goals.ted.goals.Activities.MainActivity;
 import com.goals.ted.goals.Goal;
+import com.goals.ted.goals.MyDB;
 import com.goals.ted.goals.R;
 
 import java.util.ArrayList;
@@ -190,6 +191,8 @@ public class CreateGoalFragment extends Fragment {
                 if(!titleTxt.isEmpty()){
 
                     Goal goal = new Goal(titleTxt, currentTime, dueDate);
+                    MyDB db = new MyDB(getContext());
+                    db.createRecord(titleTxt, currentTime.getTimeInMillis(), dueDate.getTimeInMillis());
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
                 }else{

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.goals.ted.goals.Goal;
+import com.goals.ted.goals.MyDB;
 import com.goals.ted.goals.R;
 import com.goals.ted.goals.RecyclerAdapter;
 
@@ -82,15 +83,14 @@ public class FragmentList extends Fragment {
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        MyDB db = new MyDB(getActivity());
 
-        List<Goal> goalList = new ArrayList<>();
+        List<Goal> goalList = db.selectRecords();
         Calendar startDate = Calendar.getInstance();
         startDate.setTimeInMillis(System.currentTimeMillis());
         Calendar endDate = Calendar.getInstance();
         endDate.setTimeInMillis(startDate.getTimeInMillis() +86400000 *10);
         Goal goal = new Goal("Wake up early", startDate, endDate);
-        goalList.add(goal);
-        goalList.add(goal);
         RecyclerAdapter adapter = new RecyclerAdapter(getActivity(), goalList);
         recyclerView.setAdapter(adapter);
         return v;
