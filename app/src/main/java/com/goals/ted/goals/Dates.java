@@ -34,7 +34,13 @@ public class Dates extends GoalDates{
             daysTill=+1;
 
         }
-        long obtained = startTo%daysTill;
+        long obtained;
+        try{
+
+            obtained = startTo%daysTill;
+        }catch (ArithmeticException e){
+            return 100.00;
+        }
 
         return (obtained*100)/startTo;
     }

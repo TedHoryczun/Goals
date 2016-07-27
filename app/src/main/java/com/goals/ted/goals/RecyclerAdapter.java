@@ -45,6 +45,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 Goal currentGoal = goalList.get(position);
                 Log.i("goal id: ", String.valueOf(currentGoal.getId()));
                 db.deleteRecord(currentGoal.getId());
+                goalList.remove(position);
                 notifyItemRemoved(position);
                 return true;
             }

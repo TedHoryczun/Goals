@@ -63,7 +63,7 @@ public class MyDB {
         return goals;
     }
     public void deleteRecord(int id){
-        database.delete(EMP_TABLE, EMP_ID + " =?", new String[]{String.valueOf(id)});
+        database.delete(EMP_TABLE, EMP_ID + " =" + id, null);
         database.close();
     }
 }
