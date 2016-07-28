@@ -15,8 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.CreateGoalActivity"
-            android:parentActivityName=".Activities.MainActivity"></activity>
+        <activity
+            android:name=".Activities.CreateGoalActivity"
+            android:parentActivityName=".Activities.MainActivity" />
+        <activity android:name=".Activities.GoalPage"></activity>
     </application>
 
 </manifest>

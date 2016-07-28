@@ -1,6 +1,7 @@
 package com.goals.ted.goals;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.goals.ted.goals.Activities.GoalPage;
 
 import java.util.List;
 
@@ -38,10 +41,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
         final MyDB db = new MyDB(context);
         final ViewHolder viewHolder = new ViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = viewHolder.getAdapterPosition();
+                Goal currentGoal = goalList.get(position);
+                Intent intent = new Intent(context, GoalPage.class);
+                intent.putExtra("id", currentGoal.getId());
+                context.startActivity(intent);
+            }
+        });
         view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                final int position = viewHolder.getAdapterPosition();
+                int position = viewHolder.getAdapterPosition();
                 Goal currentGoal = goalList.get(position);
                 Log.i("goal id: ", String.valueOf(currentGoal.getId()));
                 db.deleteRecord(currentGoal.getId());
