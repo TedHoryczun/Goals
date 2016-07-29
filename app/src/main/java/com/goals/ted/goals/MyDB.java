@@ -23,8 +23,6 @@ public class MyDB {
     private final static String EMP_CREATED = "created";
     private final static String EMP_DUEDATE = "dueDate";
 
-    private Calendar calendarCreated;
-    private Calendar calendarDue;
 
     public MyDB(Context context){
         helper = new DatabaseHelper(context);
@@ -38,11 +36,38 @@ public class MyDB {
         return database.insert(EMP_TABLE, null, values);
 
     }
+    public Goal selectByID(int id){
+        String[] cols = new String[]{EMP_ID, EMP_TITLE, EMP_CREATED, EMP_DUEDATE};
+        Cursor mCursor = database.query(true, EMP_TABLE, cols,
+                EMP_ID + "=?", new String[]{String.valueOf(id)},
+                null, null, null, null);
+
+        Calendar calendarCreated = Calendar.getInstance();
+        Calendar calendarDue = Calendar.getInstance();
+        Goal goal = null;
+        if(mCursor.moveToFirst()){
+            do{
+                String title = mCursor.getString(1);
+                long created = mCursor.getLong(2);
+                long dueDate = mCursor.getLong(3);
+                calendarCreated = Calendar.getInstance();
+                calendarDue = Calendar.getInstance();
+                calendarCreated.setTimeInMillis(created);
+                calendarDue.setTimeInMillis(dueDate);
+                goal = new Goal(title, calendarCreated, calendarDue);
+                goal.setId(id);
+                return goal;
+            }while(mCursor.moveToNext());
+        }
+        return goal;
+    }
     public List<Goal> selectRecords(){
         String[] cols = new String[]{EMP_ID, EMP_TITLE, EMP_CREATED, EMP_DUEDATE};
         List<Goal> goals = new ArrayList<>();
         Cursor mCursor = database.query(true, EMP_TABLE, cols,
                 null, null, null, null, null, null);
+        Calendar calendarCreated = Calendar.getInstance();
+        Calendar calendarDue = Calendar.getInstance();
         if(mCursor.moveToFirst()){
             do{
                 String title = mCursor.getString(1);

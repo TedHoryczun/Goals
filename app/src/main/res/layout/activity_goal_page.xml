@@ -4,12 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.goals.ted.goals.Activities.GoalPage">
-    <include layout="@layout/app_bar"
-        android:id="@id/app_bar"/>
+            <include layout="@layout/app_bar"
+                android:id="@id/app_bar"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/app_bar"
-        android:id="@+id/container"></RelativeLayout>
+        android:id="@+id/container">
+
+    </RelativeLayout>
 
 </RelativeLayout>

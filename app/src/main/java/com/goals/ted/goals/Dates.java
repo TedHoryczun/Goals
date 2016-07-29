@@ -2,6 +2,8 @@ package com.goals.ted.goals;
 
 import android.util.Log;
 
+import java.util.List;
+
 /**
  * Created by ted on 7/20/16.
  */
@@ -30,7 +32,12 @@ public class Dates extends GoalDates{
     public double percentageComplete(){
         long daysTill = daysTillDueDate();
         long startTo = startToDueDate();
-        if(daysTill<startToDueDate()){
+        Log.i("daystill: ", String.valueOf(daysTill));
+        Log.i("startTo: ", String.valueOf(startTo));
+        if(daysTill == 0){
+            return 100.00;
+        }
+        else if(daysTill<startToDueDate()){
             daysTill=+1;
 
         }

@@ -5,10 +5,52 @@
     tools:context="com.goals.ted.goals.Fragments.GoalPageFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:text="oh hello there" />
-
+        android:layout_margin="16dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="Title"
+            android:id="@+id/title"
+            android:textSize="30sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:text="Due in 3 days"
+            android:id="@+id/dueDate"
+            android:paddingTop="20dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#BDBDBD"
+            android:layout_marginTop="20dp"
+            android:id="@+id/pillar"
+            android:layout_below="@id/dueDate"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pillar"
+            android:layout_marginTop="20dp"
+            android:text="Sub Goals"
+            android:id="@+id/subGoalText"/>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/listView"
+            android:layout_below="@id/subGoalText"></ListView>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listView"
+            android:id="@+id/addSubGoal"
+            android:src="@drawable/ic_add_black_24dp"
+            android:layout_marginTop="20dp"/>
+    </RelativeLayout>
 </FrameLayout>
