@@ -9,12 +9,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:id="@+id/isCompleted"
         android:layout_centerVertical="true"/>
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:text="Read chapter 1"
+        android:hint="Sub Goal"
         android:gravity="left"
+        android:id="@+id/subGoalTitle"
         android:layout_marginLeft="72dp"
         android:layout_centerVertical="true"/>
     <ImageView
