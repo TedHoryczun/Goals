@@ -12,7 +12,7 @@
         android:id="@+id/isCompleted"
         android:layout_centerVertical="true"/>
     <EditText
-        android:layout_width="170dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:hint="Sub Goal"
         android:gravity="left"

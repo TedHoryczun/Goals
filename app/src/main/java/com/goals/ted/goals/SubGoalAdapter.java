@@ -1,13 +1,14 @@
+package com.goals.ted.goals;
+
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-
-import com.goals.ted.goals.R;
-import com.goals.ted.goals.SubGoal;
 
 import java.util.List;
 
@@ -36,7 +37,8 @@ public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHold
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ViewHolder viewHolder = new ViewHolder(parent);
+        View view = LayoutInflater.from(context).inflate(R.layout.sub_goal, null);
+        ViewHolder viewHolder = new ViewHolder(view);
 
         return viewHolder;
     }
@@ -44,14 +46,20 @@ public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         SubGoal subGoal = subGoalList.get(position);
-        holder.title.setText(subGoal.getTitle());
-        holder.checkBox.setChecked(subGoal.isChecked());
+        String title = subGoal.getTitle();
+        boolean isChecked = subGoal.isChecked();
+        holder.checkBox.setChecked(isChecked);
+        if(title != null){
 
+            holder.title.setText(title);
+        }else{
+            holder.title.setHint("Enter a title");
+        }
     }
 
     @Override
     public int getItemCount() {
-        subGoalList.size();
+        return subGoalList.size();
     }
 
 

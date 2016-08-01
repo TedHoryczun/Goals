@@ -4,11 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.goals.ted.goals.R;
+import com.goals.ted.goals.SubGoal;
+import com.goals.ted.goals.SubGoalAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,7 +73,13 @@ public class GoalPageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_goal_page, container, false);
-
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.subGoalRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        List<SubGoal> subGoalList = new ArrayList<>();
+        SubGoal subGoal = new SubGoal("", false);
+        subGoalList.add(subGoal);
+        SubGoalAdapter adapter = new SubGoalAdapter(getActivity(), subGoalList);
+        recyclerView.setAdapter(adapter);
         return view;
     }
 
