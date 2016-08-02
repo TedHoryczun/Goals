@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.goals.ted.goals.R;
 import com.goals.ted.goals.SubGoal;
@@ -34,6 +35,10 @@ public class GoalPageFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ImageButton addSubGoal;
+    private List<SubGoal> subGoalList;
+    private SubGoalAdapter adapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -74,13 +79,24 @@ public class GoalPageFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_goal_page, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.subGoalRecyclerView);
+        addSubGoal = (ImageButton) view.findViewById(R.id.addSubGoal);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        List<SubGoal> subGoalList = new ArrayList<>();
+        subGoalList = new ArrayList<>();
         SubGoal subGoal = new SubGoal("", false);
         subGoalList.add(subGoal);
-        SubGoalAdapter adapter = new SubGoalAdapter(getActivity(), subGoalList);
+        adapter = new SubGoalAdapter(getActivity(), subGoalList);
         recyclerView.setAdapter(adapter);
+        createSubGoal();
         return view;
+    }
+    public void createSubGoal(){
+        addSubGoal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                subGoalList.add(new SubGoal("", false));
+                adapter.notifyItemInserted(subGoalList.size()+1);
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

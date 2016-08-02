@@ -23,6 +23,11 @@ public class MyDB {
     private final static String EMP_CREATED = "created";
     private final static String EMP_DUEDATE = "dueDate";
 
+    private final static String SUB_TITLE = "title";
+    private final static String SUB_CHECKED = "isChecked";
+    private final static String SUB_ID = "id";
+    private final static String SUB_GOALID = "goalID";
+
 
     public MyDB(Context context){
         helper = new DatabaseHelper(context);
@@ -34,6 +39,21 @@ public class MyDB {
         values.put(EMP_CREATED, createdMilli);
         values.put(EMP_DUEDATE, dueDateMilli);
         return database.insert(EMP_TABLE, null, values);
+
+    }
+    public List<SubGoal> selectSubGoals(int id){
+        String[] cols = new String[]{SUB_ID, SUB_GOALID,SUB_TITLE, SUB_CHECKED};
+        Cursor mCursor = database.query(true, EMP_TABLE, cols,
+                SUB_GOALID + "=?", new String[]{String.valueOf(id)},
+                null, null, null, null);
+        if(mCursor.moveToFirst()){
+            do{
+                int subId = mCursor.getInt(0);
+                int goalId = mCursor.getInt(1);
+                String subTitle = mCursor.getString(2);
+                int isChecked = mCursor.getInt(Integer.parseInt(SUB_CHECKED));
+            }
+        }
 
     }
     public Goal selectByID(int id){
