@@ -43,6 +43,7 @@ public class MyDB {
     }
     public List<SubGoal> selectSubGoals(int id){
         String[] cols = new String[]{SUB_ID, SUB_GOALID,SUB_TITLE, SUB_CHECKED};
+        List<SubGoal> subGoalList = new ArrayList<>();
         Cursor mCursor = database.query(true, EMP_TABLE, cols,
                 SUB_GOALID + "=?", new String[]{String.valueOf(id)},
                 null, null, null, null);
@@ -52,8 +53,11 @@ public class MyDB {
                 int goalId = mCursor.getInt(1);
                 String subTitle = mCursor.getString(2);
                 int isChecked = mCursor.getInt(Integer.parseInt(SUB_CHECKED));
-            }
+                SubGoal subGoal = new SubGoal(subId, subTitle, Boolean.parseBoolean(String.valueOf(isChecked)));
+                subGoalList.add(subGoal);
+            }while(mCursor.moveToNext());
         }
+        return subGoalList;
 
     }
     public Goal selectByID(int id){
