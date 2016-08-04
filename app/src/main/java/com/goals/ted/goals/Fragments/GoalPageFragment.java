@@ -6,11 +6,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.goals.ted.goals.Goal;
+import com.goals.ted.goals.MyDB;
 import com.goals.ted.goals.R;
 import com.goals.ted.goals.SubGoal;
 import com.goals.ted.goals.SubGoalAdapter;
@@ -33,12 +37,17 @@ public class GoalPageFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String id;
     private String mParam2;
 
     private ImageButton addSubGoal;
-    private List<SubGoal> subGoalList;
+    private ArrayList<SubGoal> subGoalList;
     private SubGoalAdapter adapter;
+    private MyDB myDB;
+    private Goal goal;
+
+    private TextView title;
+    private TextView dueDate;
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,12 +72,11 @@ public class GoalPageFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            id = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -77,14 +85,27 @@ public class GoalPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        myDB = new MyDB(getActivity());
+        goal = myDB.selectByID(Integer.parseInt(id));
+        subGoalList = (ArrayList<SubGoal>) myDB.selectSubGoals(Integer.parseInt(id));
+        for(SubGoal subGoal : subGoalList){
+            Log.i("onCreateView: ", subGoal.getTitle());
+        }
+        if(subGoalList.isEmpty()){
+            subGoalList.add(new SubGoal(0, "", false));
+        }
+
         View view = inflater.inflate(R.layout.fragment_goal_page, container, false);
+        title = (TextView) view.findViewById(R.id.title);
+        title.setText(goal.getTitle());
+        dueDate = (TextView) view.findViewById(R.id.dueDate);
+        dueDate.setText("Due in " + String.valueOf(goal.daysTillDueDate()) + " days");
+
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.subGoalRecyclerView);
         addSubGoal = (ImageButton) view.findViewById(R.id.addSubGoal);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        subGoalList = new ArrayList<>();
-        SubGoal subGoal = new SubGoal("", false);
-        subGoalList.add(subGoal);
-        adapter = new SubGoalAdapter(getActivity(), subGoalList);
+        adapter = new SubGoalAdapter(getActivity(), this.subGoalList);
         recyclerView.setAdapter(adapter);
         createSubGoal();
         return view;
@@ -93,8 +114,8 @@ public class GoalPageFragment extends Fragment {
         addSubGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                subGoalList.add(new SubGoal("", false));
-                adapter.notifyItemInserted(subGoalList.size()+1);
+                myDB.createSubGoal(goal.getId(), "hi", false);
+                adapter.notifyDataSetChanged();
             }
         });
     }

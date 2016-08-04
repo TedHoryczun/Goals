@@ -90,7 +90,7 @@ public class FragmentList extends Fragment {
         startDate.setTimeInMillis(System.currentTimeMillis());
         Calendar endDate = Calendar.getInstance();
         endDate.setTimeInMillis(startDate.getTimeInMillis() +86400000 *10);
-        Goal goal = new Goal("Wake up early", startDate, endDate);
+        Goal goal = new Goal(getActivity(), "Wake up early", startDate, endDate);
         RecyclerAdapter adapter = new RecyclerAdapter(getActivity(), goalList);
         recyclerView.setAdapter(adapter);
         return v;

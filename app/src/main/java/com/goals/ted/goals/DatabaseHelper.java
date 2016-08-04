@@ -13,7 +13,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String DATABASE_CREATE = "create table Goals" +
             "(id Integer PRIMARY KEY AUTOINCREMENT, title text, created long, dueDate long)";
     private static final String SUBGOAL_DATABASE = "create table SubGoals" +
-            "(id Integer Primary KEY AUTOCINCREMENT, goalID Integer, title text, isChecked Integer)";
+            "(id Integer Primary KEY AUTOINCREMENT, goalID Integer, title text, isChecked Integer)";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

@@ -189,8 +189,7 @@ public class CreateGoalFragment extends Fragment {
             case R.id.save:
                 String titleTxt = title.getText().toString();
                 if(!titleTxt.isEmpty()){
-
-                    Goal goal = new Goal(titleTxt, currentTime, dueDate);
+                    Goal goal = new Goal(getActivity(), titleTxt, currentTime, dueDate);
                     MyDB db = new MyDB(getContext());
                     db.createRecord(titleTxt, currentTime.getTimeInMillis(), dueDate.getTimeInMillis());
                     Intent intent = new Intent(getActivity(), MainActivity.class);

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,6 +18,7 @@ import java.util.List;
 public class MyDB {
     private DatabaseHelper helper;
     private SQLiteDatabase database;
+    private Context context;
     public final static String EMP_ID = "id";
     public final static String EMP_TABLE="Goals";
     private final static String EMP_TITLE = "title";
@@ -27,11 +29,26 @@ public class MyDB {
     private final static String SUB_CHECKED = "isChecked";
     private final static String SUB_ID = "id";
     private final static String SUB_GOALID = "goalID";
+    private final static String SUB_TABLE = "SubGoals";
 
 
     public MyDB(Context context){
         helper = new DatabaseHelper(context);
         database = helper.getWritableDatabase();
+        this.context = context;
+    }
+    public void createSubGoal(int goalId, String title, boolean isChecked){
+        ContentValues values = new ContentValues();
+        values.put(SUB_TITLE, title);
+        values.put(SUB_GOALID, goalId);
+        if(isChecked == true){
+
+            values.put(SUB_CHECKED, 1);
+        }else{
+            values.put(SUB_CHECKED, 0);
+
+        }
+        database.insert(SUB_TABLE, null, values);
     }
     public long createRecord(String title, long createdMilli, long dueDateMilli){
         ContentValues values = new ContentValues();
@@ -44,7 +61,7 @@ public class MyDB {
     public List<SubGoal> selectSubGoals(int id){
         String[] cols = new String[]{SUB_ID, SUB_GOALID,SUB_TITLE, SUB_CHECKED};
         List<SubGoal> subGoalList = new ArrayList<>();
-        Cursor mCursor = database.query(true, EMP_TABLE, cols,
+        Cursor mCursor = database.query(true, SUB_TABLE, cols,
                 SUB_GOALID + "=?", new String[]{String.valueOf(id)},
                 null, null, null, null);
         if(mCursor.moveToFirst()){
@@ -52,7 +69,7 @@ public class MyDB {
                 int subId = mCursor.getInt(0);
                 int goalId = mCursor.getInt(1);
                 String subTitle = mCursor.getString(2);
-                int isChecked = mCursor.getInt(Integer.parseInt(SUB_CHECKED));
+                int isChecked = mCursor.getInt(3);
                 SubGoal subGoal = new SubGoal(subId, subTitle, Boolean.parseBoolean(String.valueOf(isChecked)));
                 subGoalList.add(subGoal);
             }while(mCursor.moveToNext());
@@ -78,7 +95,7 @@ public class MyDB {
                 calendarDue = Calendar.getInstance();
                 calendarCreated.setTimeInMillis(created);
                 calendarDue.setTimeInMillis(dueDate);
-                goal = new Goal(title, calendarCreated, calendarDue);
+                goal = new Goal(context, title, calendarCreated, calendarDue);
                 goal.setId(id);
                 return goal;
             }while(mCursor.moveToNext());
@@ -103,7 +120,7 @@ public class MyDB {
                 calendarDue.setTimeInMillis(dueDate);
 
 
-                Goal goal = new Goal(title, calendarCreated, calendarDue);
+                Goal goal = new Goal(context, title, calendarCreated, calendarDue);
                 goal.setId(mCursor.getInt(0));
                 goals.add(goal);
 
