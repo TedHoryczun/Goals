@@ -88,9 +88,6 @@ public class GoalPageFragment extends Fragment {
         myDB = new MyDB(getActivity());
         goal = myDB.selectByID(Integer.parseInt(id));
         subGoalList = (ArrayList<SubGoal>) myDB.selectSubGoals(Integer.parseInt(id));
-        for(SubGoal subGoal : subGoalList){
-            Log.i("onCreateView: ", subGoal.getTitle());
-        }
         if(subGoalList.isEmpty()){
             subGoalList.add(new SubGoal(0, "", false));
         }
@@ -115,7 +112,9 @@ public class GoalPageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 myDB.createSubGoal(goal.getId(), "hi", false);
-                adapter.notifyDataSetChanged();
+                subGoalList.add(new SubGoal(goal.getId(), "hi", false));
+                adapter.notifyItemInserted(subGoalList.size()+1);
+
             }
         });
     }

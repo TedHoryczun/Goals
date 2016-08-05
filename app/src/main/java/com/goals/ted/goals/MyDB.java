@@ -71,6 +71,7 @@ public class MyDB {
                 String subTitle = mCursor.getString(2);
                 int isChecked = mCursor.getInt(3);
                 SubGoal subGoal = new SubGoal(subId, subTitle, Boolean.parseBoolean(String.valueOf(isChecked)));
+                subGoal.setId(subId);
                 subGoalList.add(subGoal);
             }while(mCursor.moveToNext());
         }
@@ -131,5 +132,8 @@ public class MyDB {
     public void deleteRecord(int id){
         database.delete(EMP_TABLE, EMP_ID + " =" + id, null);
         database.close();
+    }
+    public void deleteSubGoal(int id){
+        database.delete(SUB_TABLE, SUB_ID + " =" + id, null);
     }
 }

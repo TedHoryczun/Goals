@@ -44,8 +44,9 @@ public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        SubGoal subGoal = subGoalList.get(position);
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        final MyDB myDB = new MyDB(context);
+        final SubGoal subGoal = subGoalList.get(position);
         String title = subGoal.getTitle();
         boolean isChecked = subGoal.isChecked();
         holder.checkBox.setChecked(isChecked);
@@ -55,6 +56,15 @@ public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHold
         }else{
             holder.title.setHint("Enter a title");
         }
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDB.deleteSubGoal(subGoal.getId());
+                subGoalList.remove(position);
+                notifyItemRemoved(position);
+
+            }
+        });
     }
 
     @Override

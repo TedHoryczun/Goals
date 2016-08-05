@@ -3,6 +3,15 @@ package com.goals.ted.goals;
 public class SubGoal {
     private String title;
     private boolean isChecked;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private int id;
     public SubGoal(int id, String title, boolean isChecked){
         this.title = title;

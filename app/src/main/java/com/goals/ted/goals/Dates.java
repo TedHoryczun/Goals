@@ -32,24 +32,18 @@ public class Dates extends GoalDates{
     public double percentageComplete(){
         long daysTill = daysTillDueDate();
         long startTo = startToDueDate();
-        Log.i("daystill: ", String.valueOf(daysTill));
-        Log.i("startTo: ", String.valueOf(startTo));
         if(daysTill == 0){
             return 100.00;
         }
-        else if(daysTill<startToDueDate()){
-            daysTill=+1;
-
-        }
-        long obtained;
+        float obtained;
         try{
-
-            obtained = startTo%daysTill;
+            int daysCompleted = (int) (startTo - daysTill);
+            obtained = daysCompleted*100/startTo;
         }catch (ArithmeticException e){
             return 100.00;
         }
 
-        return (obtained*100)/startTo;
+        return obtained;
     }
 
 }
