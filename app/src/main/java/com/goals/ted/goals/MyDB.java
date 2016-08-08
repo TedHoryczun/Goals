@@ -37,6 +37,19 @@ public class MyDB {
         database = helper.getWritableDatabase();
         this.context = context;
     }
+    public void changeCheckedSubGoal(int id, boolean isChecked){
+        System.out.println("hi");
+        ContentValues values = new ContentValues();
+        if(isChecked== true){
+            values.put(SUB_CHECKED, 1);
+            System.out.println("true");
+        }else{
+            values.put(SUB_CHECKED, 0);
+            System.out.println("false");
+        }
+        database.update(SUB_TABLE, values, SUB_ID +"=?", new String[]{String.valueOf(id)});
+
+    }
     public void createSubGoal(int goalId, String title, boolean isChecked){
         ContentValues values = new ContentValues();
         values.put(SUB_TITLE, title);
@@ -70,7 +83,14 @@ public class MyDB {
                 int goalId = mCursor.getInt(1);
                 String subTitle = mCursor.getString(2);
                 int isChecked = mCursor.getInt(3);
-                SubGoal subGoal = new SubGoal(subId, subTitle, Boolean.parseBoolean(String.valueOf(isChecked)));
+                boolean isCheckBoolean;
+                if(isChecked==0){
+                   isCheckBoolean = false;
+                }else{
+                    isCheckBoolean = true;
+                }
+                Log.i("isCheckBoolean: ", String.valueOf(isCheckBoolean));
+                SubGoal subGoal = new SubGoal(subId, subTitle, isCheckBoolean);
                 subGoal.setId(subId);
                 subGoalList.add(subGoal);
             }while(mCursor.moveToNext());
@@ -119,7 +139,6 @@ public class MyDB {
                 calendarDue = Calendar.getInstance();
                 calendarCreated.setTimeInMillis(created);
                 calendarDue.setTimeInMillis(dueDate);
-
 
                 Goal goal = new Goal(context, title, calendarCreated, calendarDue);
                 goal.setId(mCursor.getInt(0));

@@ -2,6 +2,7 @@ package com.goals.ted.goals;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
     private List<Goal> goalList;
     private Context context;
+    private MyDB db;
     public RecyclerAdapter(Context context, List<Goal> goalList){
         this.goalList = goalList;
         this.context = context;
@@ -39,8 +41,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-        final MyDB db = new MyDB(context);
+        db = new MyDB(context);
         final ViewHolder viewHolder = new ViewHolder(view);
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +75,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.title.setText(currentGoal.getTitle());
         holder.dueDate.setText("Due in " + String.valueOf(currentGoal.daysTillDueDate() + " days"));
         holder.percentComplete.setText(String.valueOf(currentGoal.percentageComplete() + "%"));
+
+
 
     }
 

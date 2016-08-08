@@ -1,14 +1,17 @@
 package com.goals.ted.goals;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -44,18 +47,26 @@ public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final MyDB myDB = new MyDB(context);
         final SubGoal subGoal = subGoalList.get(position);
         String title = subGoal.getTitle();
         boolean isChecked = subGoal.isChecked();
         holder.checkBox.setChecked(isChecked);
+        setTextStrike(holder, isChecked);
         if(title != null){
 
             holder.title.setText(title);
         }else{
             holder.title.setHint("Enter a title");
         }
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                myDB.changeCheckedSubGoal(subGoal.getId(), isChecked);
+                setTextStrike(holder, isChecked);
+            }
+        });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +76,14 @@ public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHold
 
             }
         });
+    }
+    public void setTextStrike(ViewHolder holder, boolean isChecked){
+        if(isChecked==true){
+            holder.title.setPaintFlags(holder.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }else{
+            holder.title.setPaintFlags( holder.title.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+
+        }
     }
 
     @Override

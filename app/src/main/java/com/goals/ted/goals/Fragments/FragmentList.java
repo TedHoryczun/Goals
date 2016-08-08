@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.goals.ted.goals.Goal;
 import com.goals.ted.goals.MyDB;
 import com.goals.ted.goals.R;
 import com.goals.ted.goals.RecyclerAdapter;
+import com.goals.ted.goals.SubGoal;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -82,9 +84,8 @@ public class FragmentList extends Fragment {
         View v =  inflater.inflate(R.layout.fragment_fragment_list, container, false);
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         MyDB db = new MyDB(getActivity());
-
         List<Goal> goalList = db.selectRecords();
         Calendar startDate = Calendar.getInstance();
         startDate.setTimeInMillis(System.currentTimeMillis());
