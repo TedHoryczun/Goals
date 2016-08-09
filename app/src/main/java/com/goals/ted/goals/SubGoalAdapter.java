@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -60,6 +61,12 @@ public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHold
         }else{
             holder.title.setHint("Enter a title");
         }
+        holder.title.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                System.out.println("changed!!");
+            }
+        });
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -85,6 +92,7 @@ public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHold
 
         }
     }
+
 
     @Override
     public int getItemCount() {

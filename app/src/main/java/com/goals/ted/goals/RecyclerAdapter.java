@@ -31,8 +31,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         private TextView title;
         private TextView dueDate;
         private TextView percentComplete;
+        private TextView checks;
        public ViewHolder(View itemView){
            super(itemView);
+           checks = (TextView) itemView.findViewById(R.id.checks);
            title = (TextView) itemView.findViewById(R.id.goalTitle);
            dueDate = (TextView) itemView.findViewById(R.id.goaldueDate);
            percentComplete = (TextView) itemView.findViewById(R.id.percentComplete);
@@ -59,7 +61,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             public boolean onLongClick(View v) {
                 int position = viewHolder.getAdapterPosition();
                 Goal currentGoal = goalList.get(position);
-                Log.i("goal id: ", String.valueOf(currentGoal.getId()));
                 db.deleteRecord(currentGoal.getId());
                 goalList.remove(position);
                 notifyItemRemoved(position);
@@ -72,9 +73,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Goal currentGoal = goalList.get(position);
+        List<SubGoal> subGoals = db.selectSubGoals(currentGoal.getId());
+        int subGoalSize = subGoals.size();
+        int howManyChecked = 0;
+        for(SubGoal i : subGoals){
+            if(i.isChecked() == true){
+                howManyChecked +=1;
+            }
+        }
+
         holder.title.setText(currentGoal.getTitle());
         holder.dueDate.setText("Due in " + String.valueOf(currentGoal.daysTillDueDate() + " days"));
         holder.percentComplete.setText(String.valueOf(currentGoal.percentageComplete() + "%"));
+        holder.checks.setText(howManyChecked + "/" + subGoalSize);
 
 
 

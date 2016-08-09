@@ -49,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/goaldueDate"
             android:paddingLeft="16dp"
+            android:id="@+id/checks"
             android:text="3 checks"/>
 
     </RelativeLayout>

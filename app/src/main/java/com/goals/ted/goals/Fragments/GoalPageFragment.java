@@ -8,8 +8,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -85,19 +88,16 @@ public class GoalPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        hasOptionsMenu();
         myDB = new MyDB(getActivity());
         goal = myDB.selectByID(Integer.parseInt(id));
         subGoalList = (ArrayList<SubGoal>) myDB.selectSubGoals(Integer.parseInt(id));
-        if(subGoalList.isEmpty()){
-            subGoalList.add(new SubGoal(0, "", false));
-        }
 
         View view = inflater.inflate(R.layout.fragment_goal_page, container, false);
         title = (TextView) view.findViewById(R.id.title);
         title.setText(goal.getTitle());
         dueDate = (TextView) view.findViewById(R.id.dueDate);
         dueDate.setText("Due in " + String.valueOf(goal.daysTillDueDate()) + " days");
-
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.subGoalRecyclerView);
         addSubGoal = (ImageButton) view.findViewById(R.id.addSubGoal);
@@ -111,8 +111,8 @@ public class GoalPageFragment extends Fragment {
         addSubGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myDB.createSubGoal(goal.getId(), "hi", false);
-                subGoalList.add(new SubGoal(goal.getId(), "hi", false));
+                myDB.createSubGoal(goal.getId(), "", false);
+                subGoalList.add(new SubGoal(goal.getId(), "", false));
                 adapter.notifyItemInserted(subGoalList.size()+1);
 
             }
@@ -153,5 +153,10 @@ public class GoalPageFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.create_gest_menu, menu);
     }
 }
