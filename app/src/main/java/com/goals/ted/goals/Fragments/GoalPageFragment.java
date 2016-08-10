@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -88,7 +89,7 @@ public class GoalPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        hasOptionsMenu();
+        setHasOptionsMenu(true);
         myDB = new MyDB(getActivity());
         goal = myDB.selectByID(Integer.parseInt(id));
         subGoalList = (ArrayList<SubGoal>) myDB.selectSubGoals(Integer.parseInt(id));
@@ -158,5 +159,15 @@ public class GoalPageFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.create_gest_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.save:
+                    SubGoalAdapter.onSave();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

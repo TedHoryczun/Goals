@@ -3,7 +3,10 @@ package com.goals.ted.goals;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -20,9 +24,11 @@ import java.util.List;
  * Created by ted on 7/31/16.
  */
 public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHolder>{
-    private List<SubGoal> subGoalList;
+    private static List<SubGoal> subGoalList;
     private Context context;
+    private StringBuilder title;
 
+    private static MyDB myDB;
     public SubGoalAdapter(Context context, List<SubGoal> subGoalList){
         this.context = context;
         this.subGoalList = subGoalList;
@@ -49,22 +55,36 @@ public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final MyDB myDB = new MyDB(context);
+        myDB = new MyDB(context);
         final SubGoal subGoal = subGoalList.get(position);
-        String title = subGoal.getTitle();
+        title = new StringBuilder();
+        title.replace(0, title.length(), subGoal.getTitle());
         boolean isChecked = subGoal.isChecked();
         holder.checkBox.setChecked(isChecked);
         setTextStrike(holder, isChecked);
-        if(title != null){
+        if(!title.toString().isEmpty()){
 
-            holder.title.setText(title);
+            holder.title.setText(title.toString());
         }else{
             holder.title.setHint("Enter a title");
         }
-        holder.title.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        title.replace(0, title.length(), holder.title.getText().toString());
+        holder.title.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                System.out.println("changed!!");
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                title.replace(0, title.length(), s.toString());
+                Log.i("onTextChanged: ", String.valueOf(title));
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                subGoal.setTitle(title.toString());
             }
         });
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -92,6 +112,15 @@ public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHold
 
         }
     }
+    public static void onSave(){
+
+        for(SubGoal subGoal : subGoalList){
+
+            myDB.subGoalUpdate(MyDB.SUB_TITLE, subGoal.getId(), subGoal.getTitle());
+            System.out.println(subGoal.getTitle());
+        }
+    }
+
 
 
     @Override

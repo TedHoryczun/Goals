@@ -44,11 +44,20 @@
             android:paddingRight="16dp"
             android:text="0.0%"
             android:textColor="#424242" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_done_black_18dp"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="16dp"
+            android:layout_below="@id/goaldueDate"
+            android:id="@+id/checkMark"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/goaldueDate"
-            android:paddingLeft="16dp"
+            android:layout_toRightOf="@id/checkMark"
+            android:layout_alignBottom="@id/checkMark"
             android:id="@+id/checks"
             android:text="3 checks"/>
 

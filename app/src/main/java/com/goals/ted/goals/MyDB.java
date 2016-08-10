@@ -21,15 +21,15 @@ public class MyDB {
     private Context context;
     public final static String EMP_ID = "id";
     public final static String EMP_TABLE="Goals";
-    private final static String EMP_TITLE = "title";
-    private final static String EMP_CREATED = "created";
-    private final static String EMP_DUEDATE = "dueDate";
+    public final static String EMP_TITLE = "title";
+    public final static String EMP_CREATED = "created";
+    public final static String EMP_DUEDATE = "dueDate";
 
-    private final static String SUB_TITLE = "title";
-    private final static String SUB_CHECKED = "isChecked";
-    private final static String SUB_ID = "id";
-    private final static String SUB_GOALID = "goalID";
-    private final static String SUB_TABLE = "SubGoals";
+    public final static String SUB_TITLE = "title";
+    public final static String SUB_CHECKED = "isChecked";
+    public final static String SUB_ID = "id";
+    public final static String SUB_GOALID = "goalID";
+    public final static String SUB_TABLE = "SubGoals";
 
 
     public MyDB(Context context){
@@ -37,8 +37,13 @@ public class MyDB {
         database = helper.getWritableDatabase();
         this.context = context;
     }
+    public void subGoalUpdate(String key, int subGoalId, String content){
+        ContentValues values = new ContentValues();
+        values.put(key, content);
+        database.update(SUB_TABLE, values, SUB_ID +"=?", new String[]{String.valueOf(subGoalId)});
+
+    }
     public void changeCheckedSubGoal(int id, boolean isChecked){
-        System.out.println("hi");
         ContentValues values = new ContentValues();
         if(isChecked== true){
             values.put(SUB_CHECKED, 1);
