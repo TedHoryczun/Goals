@@ -8,9 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.goals.ted.goals.Fragments.GoalPageFragment;
 import com.goals.ted.goals.R;
+import com.goals.ted.goals.SubGoal;
+import com.goals.ted.goals.SubGoalAdapter;
 
 public class GoalPage extends AppCompatActivity implements GoalPageFragment.OnFragmentInteractionListener{
 
@@ -33,6 +36,15 @@ public class GoalPage extends AppCompatActivity implements GoalPageFragment.OnFr
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

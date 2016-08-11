@@ -1,6 +1,7 @@
 package com.goals.ted.goals.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.goals.ted.goals.Activities.MainActivity;
 import com.goals.ted.goals.Goal;
 import com.goals.ted.goals.MyDB;
 import com.goals.ted.goals.R;
@@ -156,18 +158,4 @@ public class GoalPageFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.create_gest_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.save:
-                    SubGoalAdapter.onSave();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
