@@ -134,6 +134,7 @@ public class CreateGoalFragment extends Fragment {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         dueDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         dueDate.set(Calendar.MINUTE, minute);
+                        timePicker.setText(hourOfDay + ":"+ minute);
 
                     }
                 }, currentTime.get(Calendar.HOUR_OF_DAY), currentTime.get(Calendar.MINUTE), false);
