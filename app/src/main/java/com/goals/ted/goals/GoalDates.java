@@ -7,6 +7,7 @@ import java.util.Calendar;
  */
 public class GoalDates {
     private Calendar startDate;
+
     public Calendar getEndDate() {
         return EndDate;
     }

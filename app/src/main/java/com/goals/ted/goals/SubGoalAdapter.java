@@ -85,6 +85,8 @@ public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHold
             @Override
             public void afterTextChanged(Editable s) {
                 subGoal.setTitle(title.toString());
+                Log.i("afterTextChanged: ", String.valueOf(s));
+                myDB.subGoalUpdate(MyDB.SUB_TITLE, subGoal.getId(), String.valueOf(s));
             }
         });
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

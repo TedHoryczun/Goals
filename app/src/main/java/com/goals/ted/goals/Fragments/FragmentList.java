@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -15,10 +14,8 @@ import android.view.ViewGroup;
 import com.goals.ted.goals.Goal;
 import com.goals.ted.goals.MyDB;
 import com.goals.ted.goals.R;
-import com.goals.ted.goals.RecyclerAdapter;
-import com.goals.ted.goals.SubGoal;
+import com.goals.ted.goals.GoalAdapter;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -92,7 +89,7 @@ public class FragmentList extends Fragment {
         Calendar endDate = Calendar.getInstance();
         endDate.setTimeInMillis(startDate.getTimeInMillis() +86400000 *10);
         Goal goal = new Goal(getActivity(), "Wake up early", startDate, endDate);
-        RecyclerAdapter adapter = new RecyclerAdapter(getActivity(), goalList);
+        GoalAdapter adapter = new GoalAdapter(getActivity(), goalList);
         recyclerView.setAdapter(adapter);
         return v;
     }

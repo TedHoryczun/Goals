@@ -4,16 +4,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.goals.ted.goals.Activities.GoalPage;
 
@@ -22,12 +18,12 @@ import java.util.List;
 /**
  * Created by ted on 7/20/16.
  */
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
     private List<Goal> goalList;
     private Context context;
     private MyDB db;
 
-    public RecyclerAdapter(Context context, List<Goal> goalList) {
+    public GoalAdapter(Context context, List<Goal> goalList) {
         this.goalList = goalList;
         this.context = context;
 
@@ -38,13 +34,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         private TextView dueDate;
         private TextView percentComplete;
         private TextView checks;
+        private ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
             checks = (TextView) itemView.findViewById(R.id.checks);
             title = (TextView) itemView.findViewById(R.id.goalTitle);
             dueDate = (TextView) itemView.findViewById(R.id.goaldueDate);
-            percentComplete = (TextView) itemView.findViewById(R.id.percentComplete);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar);
         }
     }
 
@@ -110,8 +107,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         holder.title.setText(currentGoal.getTitle());
         holder.dueDate.setText("Due in " + String.valueOf(currentGoal.daysTillDueDate() + " days"));
-        holder.percentComplete.setText(String.valueOf(currentGoal.percentageComplete() + "%"));
         holder.checks.setText(howManyChecked + "/" + subGoalSize);
+        holder.progressBar.setProgress((int) currentGoal.percentageComplete());
 
 
     }

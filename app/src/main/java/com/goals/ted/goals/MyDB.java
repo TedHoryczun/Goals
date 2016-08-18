@@ -155,7 +155,6 @@ public class MyDB {
     }
     public void deleteRecord(int id){
         database.delete(EMP_TABLE, EMP_ID + " =" + id, null);
-        database.close();
     }
     public void deleteSubGoal(int id){
         database.delete(SUB_TABLE, SUB_ID + " =" + id, null);

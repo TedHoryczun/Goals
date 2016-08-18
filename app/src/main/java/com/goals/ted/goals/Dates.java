@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class Dates extends GoalDates{
     public static long oneDayMilli = 86400000;
+    private static final int GOAL_COMPLETE = 0;
     public long startToDueDate(){
         long startTime = getStartDate().getTimeInMillis();
         long dueDate = getEndDate().getTimeInMillis();
@@ -30,15 +31,15 @@ public class Dates extends GoalDates{
         }
     }
     public double percentageComplete(){
-        long daysTill = daysTillDueDate();
-        long startTo = startToDueDate();
-        if(daysTill == 0){
+        long daysTillDueDate = daysTillDueDate();
+        long startToDueDate = startToDueDate();
+        if(daysTillDueDate == GOAL_COMPLETE){
             return 100.00;
         }
         float obtained;
         try{
-            int daysCompleted = (int) (startTo - daysTill);
-            obtained = daysCompleted*100/startTo;
+            int daysCompleted = (int) (startToDueDate - daysTillDueDate);
+            obtained = daysCompleted*100/startToDueDate;
         }catch (ArithmeticException e){
             return 100.00;
         }

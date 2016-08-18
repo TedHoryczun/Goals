@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardUseCompatPadding="true">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
         android:background="#ffffff"
         android:paddingTop="16dp">
 
@@ -18,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:paddingBottom="20dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="16dp"
             android:text="Title"
             android:textColor="#424242"
@@ -29,37 +31,43 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_below="@+id/goalTitle"
+            android:paddingBottom="8dp"
             android:paddingLeft="16dp"
-            android:paddingTop="20dp"
             android:text="Due in 3 days"
             android:textColor="#9E9E9E"
             android:textSize="14sp" />
 
+
         <TextView
-            android:id="@+id/percentComplete"
+            android:id="@+id/checks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:paddingBottom="20dp"
+            android:textSize="16sp"
+            android:layout_alignBaseline="@id/goalTitle"
             android:paddingRight="16dp"
-            android:text="0.0%"
-            android:textColor="#424242" />
+            android:text="3 checks" />
+
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_done_black_18dp"
-            android:layout_alignParentLeft="true"
-            android:paddingLeft="16dp"
-            android:layout_below="@id/goaldueDate"
             android:id="@+id/checkMark"
-            />
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/checkMark"
-            android:layout_alignBottom="@id/checkMark"
-            android:id="@+id/checks"
-            android:text="3 checks"/>
+            android:layout_toLeftOf="@id/checks"
+            android:layout_alignBottom="@+id/checks"
+            android:src="@drawable/ic_done_black_18dp" />
+
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/goaldueDate"
+            android:max="100"
+            android:minHeight="2dp"
+            android:minWidth="200dp"
+            android:paddingBottom="10dp"
+            android:progress="0" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

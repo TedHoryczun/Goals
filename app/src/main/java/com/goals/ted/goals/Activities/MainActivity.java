@@ -9,16 +9,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.goals.ted.goals.Fragments.CreateGoalFragment;
 import com.goals.ted.goals.Fragments.FragmentList;
 import com.goals.ted.goals.Goal;
 import com.goals.ted.goals.R;
-import com.goals.ted.goals.RecyclerAdapter;
+import com.goals.ted.goals.GoalAdapter;
 
 public class MainActivity extends AppCompatActivity implements  FragmentList.OnFragmentInteractionListener{
     private Goal goal;
     private RecyclerView recyclerView;
-    private RecyclerAdapter adapter;
+    private GoalAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
