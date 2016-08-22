@@ -1,24 +1,18 @@
 package com.goals.ted.goals.Fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.goals.ted.goals.Activities.MainActivity;
 import com.goals.ted.goals.Goal;
 import com.goals.ted.goals.MyDB;
 import com.goals.ted.goals.R;
@@ -26,7 +20,6 @@ import com.goals.ted.goals.SubGoal;
 import com.goals.ted.goals.SubGoalAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,7 +39,7 @@ public class GoalPageFragment extends Fragment {
     private String id;
     private String mParam2;
 
-    private ImageButton addSubGoal;
+    private FloatingActionButton addSubGoal;
     private ArrayList<SubGoal> subGoalList;
     private SubGoalAdapter adapter;
     private MyDB myDB;
@@ -54,6 +47,7 @@ public class GoalPageFragment extends Fragment {
 
     private TextView title;
     private TextView dueDate;
+    private TextView percentTaskCompleted;
 
     private OnFragmentInteractionListener mListener;
 
@@ -96,14 +90,14 @@ public class GoalPageFragment extends Fragment {
         goal = myDB.selectByID(Integer.parseInt(id));
         subGoalList = (ArrayList<SubGoal>) myDB.selectSubGoals(Integer.parseInt(id));
 
-        View view = inflater.inflate(R.layout.fragment_goal_page, container, false);
-        title = (TextView) view.findViewById(R.id.title);
-        title.setText(goal.getTitle());
-        dueDate = (TextView) view.findViewById(R.id.dueDate);
-        dueDate.setText("Due in " + String.valueOf(goal.daysTillDueDate()) + " days");
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.subGoalRecyclerView);
-        addSubGoal = (ImageButton) view.findViewById(R.id.addSubGoal);
+        View view = inflater.inflate(R.layout.fragment_goal_page_test, container, false);
+        View activity = inflater.inflate(R.layout.activity_goal_page, container, false);
+        //dueDate = (TextView) view.findViewById(R.id.dueDate);
+        //dueDate.setText("Due in " + String.valueOf(goal.daysTillDueDate()) + " days");
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.goalPageRecycler);
+        addSubGoal = (FloatingActionButton) activity.findViewById(R.id.goalPageAddSubGoal);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new SubGoalAdapter(getActivity(), this.subGoalList);
         recyclerView.setAdapter(adapter);

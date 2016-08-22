@@ -30,18 +30,18 @@ public class Dates extends GoalDates{
             return 0;
         }
     }
-    public double percentageComplete(){
+    public int percentageComplete(){
         long daysTillDueDate = daysTillDueDate();
         long startToDueDate = startToDueDate();
+        int obtained;
         if(daysTillDueDate == GOAL_COMPLETE){
-            return 100.00;
+            return 100;
         }
-        float obtained;
         try{
             int daysCompleted = (int) (startToDueDate - daysTillDueDate);
-            obtained = daysCompleted*100/startToDueDate;
+            obtained = (int) (daysCompleted*100/startToDueDate);
         }catch (ArithmeticException e){
-            return 100.00;
+            return 100;
         }
 
         return obtained;
