@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
     private List<Goal> goalList;
     private Context context;
     private MyDB db;
+
+    private final static int MAX_TITLE_WIDTH = 11;
 
     public GoalAdapter(Context context, List<Goal> goalList) {
         this.goalList = goalList;
@@ -105,11 +108,44 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
             }
         }
 
-        holder.title.setText(currentGoal.getTitle());
+        String goalTitle = currentGoal.getTitle();
+        boolean isTitleTooLong = isGoalTitleTooLong(goalTitle);
+        if(isTitleTooLong){
+            String shrunkenTitle = shrinkAndEditTitle(goalTitle);
+            holder.title.setText(shrunkenTitle);
+        }else{
+            holder.title.setText(goalTitle);
+        }
         holder.dueDate.setText("Due in " + String.valueOf(currentGoal.daysTillDueDate() + " days"));
         holder.checks.setText(howManyChecked + "/" + subGoalSize);
         holder.progressBar.setProgress((int) currentGoal.percentageComplete());
+    }
+    public boolean isGoalTitleTooLong(String title){
+        final int MAX_STRING_CHAR_WIDTH = 12;
+        boolean isTitleTooLong;
+        if(title.length() >= MAX_STRING_CHAR_WIDTH){
+            Log.i("isGoalTitleTooLong: ", title);
+            isTitleTooLong = true;
+        }else{
+            isTitleTooLong = false;
+        }
+        return isTitleTooLong;
+    }
+    private String shrinkAndEditTitle(String goalTitle) {
+        String shunkAndEditedTitle;
+        StringBuilder stringBuilder= shrinkTitleToMax(goalTitle);
+        stringBuilder.append("..");
+        shunkAndEditedTitle = stringBuilder.toString();
+        return shunkAndEditedTitle;
+    }
 
+    private StringBuilder shrinkTitleToMax(String goalTitle) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i=0;i<MAX_TITLE_WIDTH;i++){
+            char selectedChar = goalTitle.charAt(i);
+           stringBuilder.append(selectedChar);
+        }
+        return stringBuilder;
 
     }
 
@@ -117,6 +153,4 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
     public int getItemCount() {
         return goalList.size();
     }
-
-
 }
