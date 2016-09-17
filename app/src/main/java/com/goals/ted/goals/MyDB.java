@@ -76,7 +76,7 @@ public class MyDB {
         return database.insert(EMP_TABLE, null, values);
 
     }
-    public List<SubGoal> selectSubGoals(int id){
+    public List<SubGoal> selectSubGoalsById(int id){
         String[] cols = new String[]{SUB_ID, SUB_GOALID,SUB_TITLE, SUB_CHECKED};
         List<SubGoal> subGoalList = new ArrayList<>();
         Cursor mCursor = database.query(true, SUB_TABLE, cols,

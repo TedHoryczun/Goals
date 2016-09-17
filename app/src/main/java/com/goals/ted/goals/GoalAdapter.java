@@ -99,7 +99,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Goal currentGoal = goalList.get(position);
-        List<SubGoal> subGoals = db.selectSubGoals(currentGoal.getId());
+        List<SubGoal> subGoals = db.selectSubGoalsById(currentGoal.getId());
         int subGoalSize = subGoals.size();
         int howManyChecked = 0;
         for (SubGoal i : subGoals) {

@@ -7,11 +7,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.goals.ted.goals.Goal;
 import com.goals.ted.goals.MyDB;
@@ -88,16 +89,16 @@ public class GoalPageFragment extends Fragment {
         setHasOptionsMenu(true);
         myDB = new MyDB(getActivity());
         goal = myDB.selectByID(Integer.parseInt(id));
-        subGoalList = (ArrayList<SubGoal>) myDB.selectSubGoals(Integer.parseInt(id));
+        subGoalList = (ArrayList<SubGoal>) myDB.selectSubGoalsById(Integer.parseInt(id));
 
 
-        View view = inflater.inflate(R.layout.fragment_goal_page_test, container, false);
+        View view = inflater.inflate(R.layout.fragment_goal_page, container, false);
         View activity = inflater.inflate(R.layout.activity_goal_page, container, false);
-        //dueDate = (TextView) view.findViewById(R.id.dueDate);
-        //dueDate.setText("Due in " + String.valueOf(goal.daysTillDueDate()) + " days");
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.goalPageRecycler);
-        addSubGoal = (FloatingActionButton) activity.findViewById(R.id.goalPageAddSubGoal);
+        TextView titleTxtView = (TextView) view.findViewById(R.id.title);
+        titleTxtView.setText(goal.getTitle());
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.subGoalRecyclerView);
+        addSubGoal = (FloatingActionButton) view.findViewById(R.id.goalPageAddSubGoal);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new SubGoalAdapter(getActivity(), this.subGoalList);
         recyclerView.setAdapter(adapter);
@@ -111,7 +112,8 @@ public class GoalPageFragment extends Fragment {
                 myDB.createSubGoal(goal.getId(), "", false);
                 subGoalList.add(new SubGoal(goal.getId(), "", false));
                 adapter.notifyItemInserted(subGoalList.size()+1);
-
+                Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
+                Log.d("onClicked", "fab clicked");
             }
         });
     }

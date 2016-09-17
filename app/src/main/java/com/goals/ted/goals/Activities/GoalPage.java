@@ -24,6 +24,9 @@ public class GoalPage extends AppCompatActivity implements GoalPageFragment.OnFr
     private Goal goal;
     private FloatingActionButton createSubGoal;
 
+    private TextView percentTaskCompleted;
+    private TextView goalTitleTxtView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,13 +39,14 @@ public class GoalPage extends AppCompatActivity implements GoalPageFragment.OnFr
         goal = db.selectByID(id);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-        toolbar.setTitle(goal.getTitle());
+        String goalTitle = goal.getTitle();
+        toolbar.setTitle(goalTitle);
         setSupportActionBar(toolbar);
 
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-        TextView percentTaskCompleted = (TextView) findViewById(R.id.goalPagePercentComplete);
+        percentTaskCompleted = (TextView) findViewById(R.id.goalPagePercentComplete);
         percentTaskCompleted.setText(goal.percentageComplete() + "%");
         Fragment fragment = GoalPageFragment.newInstance(String.valueOf(id),  "hello");
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment)
