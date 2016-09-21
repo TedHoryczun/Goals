@@ -2,6 +2,8 @@ package com.goals.ted.goals;
 
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -10,6 +12,7 @@ import java.util.List;
 public class Dates extends GoalDates{
     public static long oneDayMilli = 86400000;
     private static final int GOAL_COMPLETE = 0;
+
     public long startToDueDate(){
         long startTime = getStartDate().getTimeInMillis();
         long dueDate = getEndDate().getTimeInMillis();

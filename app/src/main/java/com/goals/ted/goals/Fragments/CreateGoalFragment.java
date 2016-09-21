@@ -22,6 +22,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.goals.ted.goals.Activities.MainActivity;
+import com.goals.ted.goals.DateFormatter;
 import com.goals.ted.goals.Goal;
 import com.goals.ted.goals.MyDB;
 import com.goals.ted.goals.R;
@@ -98,8 +99,10 @@ public class CreateGoalFragment extends Fragment {
         setHasOptionsMenu(true);
         currentTime = Calendar.getInstance();
         currentTime.setTimeInMillis(System.currentTimeMillis());
+        String formattedCurrentDate = DateFormatter.convertDateToDateFormat(currentTime);
         timePicker = (EditText) v.findViewById(R.id.timePicker);
         datePicker = (EditText)v.findViewById(R.id.datePicker);
+        datePicker.setText(formattedCurrentDate);
         title = (EditText) v.findViewById(R.id.goalTitle);
         dueDate = Calendar.getInstance();
         timePickerDialog(v);
@@ -116,6 +119,9 @@ public class CreateGoalFragment extends Fragment {
                         dueDate.set(Calendar.YEAR, year);
                         dueDate.set(Calendar.MONTH, monthOfYear);
                         dueDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        String formattedDate = DateFormatter.convertDateToDateFormat(dueDate);
+                        datePicker.setText(formattedDate);
+
 
                     }
                 }, currentTime.get(Calendar.YEAR), currentTime.get(Calendar.MONTH), currentTime.get(Calendar.DAY_OF_MONTH));
