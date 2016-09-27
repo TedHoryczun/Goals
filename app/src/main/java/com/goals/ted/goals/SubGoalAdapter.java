@@ -3,48 +3,50 @@ package com.goals.ted.goals;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 /**
  * Created by ted on 7/31/16.
  */
-public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHolder>{
+public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHolder> {
     private static List<SubGoal> subGoalList;
     private Context context;
     private StringBuilder title;
+    private String goalId;
+    private boolean isInEditMode = false;
 
     private static MyDB myDB;
-    public SubGoalAdapter(Context context, List<SubGoal> subGoalList){
+
+    public SubGoalAdapter(Context context, List<SubGoal> subGoalList, String goalId) {
         this.context = context;
         this.subGoalList = subGoalList;
+        this.goalId = goalId;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private CheckBox checkBox;
         private EditText title;
         private ImageView deleteButton;
+        private ImageView editSubGoalTitle;
+
         public ViewHolder(View itemView) {
             super(itemView);
             checkBox = (CheckBox) itemView.findViewById(R.id.isCompleted);
             title = (EditText) itemView.findViewById(R.id.subGoalTitle);
             deleteButton = (ImageView) itemView.findViewById(R.id.deleteSubGoal);
+            editSubGoalTitle = (ImageView) itemView.findViewById(R.id.editSubGoalTitle);
         }
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.sub_goal, null);
@@ -62,33 +64,14 @@ public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHold
         boolean isChecked = subGoal.isChecked();
         holder.checkBox.setChecked(isChecked);
         setTextStrike(holder, isChecked);
-        if(!title.toString().isEmpty()){
+        if (!title.toString().isEmpty()) {
 
             holder.title.setText(title.toString());
-        }else{
+        } else {
             holder.title.setHint("Enter a title");
         }
+        editSubGoalHandler(holder.editSubGoalTitle, subGoal, holder);
         title.replace(0, title.length(), holder.title.getText().toString());
-        holder.title.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                title.replace(0, title.length(), s.toString());
-                Log.i("onTextChanged: ", String.valueOf(title));
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                subGoal.setTitle(title.toString());
-                Log.i("afterTextChanged: ", String.valueOf(s));
-                myDB.subGoalUpdate(MyDB.SUB_TITLE, subGoal.getId(), String.valueOf(s));
-            }
-        });
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -99,30 +82,67 @@ public class SubGoalAdapter extends RecyclerView.Adapter<SubGoalAdapter.ViewHold
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myDB.deleteSubGoal(subGoal.getId());
+                myDB.deleteRecord(MyDB.SUB_TABLE, subGoalList.get(position).getId());
                 subGoalList.remove(position);
                 notifyItemRemoved(position);
+                notifyDataSetChanged();
+                System.out.println(position);
+                Log.i("Arrays", subGoalList.toString());
 
             }
         });
     }
-    public void setTextStrike(ViewHolder holder, boolean isChecked){
-        if(isChecked==true){
+
+    private void editSubGoalHandler(ImageView editSubGoalTitle, final SubGoal subGoal, final ViewHolder holder) {
+        editSubGoalTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isEditMode = subGoal.isEditMode();
+                determineEditModeAndSetIt(subGoal, holder, isEditMode);
+            }
+        });
+    }
+
+    public void determineEditModeAndSetIt(SubGoal subGoal, final ViewHolder holder, boolean isEditMode) {
+        if (isEditMode) {
+            subGoal.setEditMode(false);
+            turnOnOffEditMode(false, holder, subGoal);
+        } else {
+            subGoal.setEditMode(true);
+            turnOnOffEditMode(true, holder, subGoal);
+        }
+    }
+
+    private void turnOnOffEditMode(boolean isInEditMode, ViewHolder holder, SubGoal subGoal) {
+        if (isInEditMode) {
+            holder.editSubGoalTitle.setImageResource(R.drawable.ic_add_black_24dp);
+            holder.title.setEnabled(true);
+        } else {
+            holder.editSubGoalTitle.setImageResource(R.drawable.ic_mode_edit_black_24dp);
+            holder.title.setEnabled(false);
+            myDB.subGoalUpdate(MyDB.SUB_TITLE, subGoal.getId(), holder.title.getText().toString());
+        }
+        System.out.println("clicked");
+
+    }
+
+    public void setTextStrike(ViewHolder holder, boolean isChecked) {
+        if (isChecked == true) {
             holder.title.setPaintFlags(holder.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        }else{
-            holder.title.setPaintFlags( holder.title.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+        } else {
+            holder.title.setPaintFlags(holder.title.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
 
         }
     }
-    public static void onSave(){
 
-        for(SubGoal subGoal : subGoalList){
+    public static void onSave() {
+
+        for (SubGoal subGoal : subGoalList) {
 
             myDB.subGoalUpdate(MyDB.SUB_TITLE, subGoal.getId(), subGoal.getTitle());
             System.out.println(subGoal.getTitle());
         }
     }
-
 
 
     @Override

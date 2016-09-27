@@ -51,6 +51,7 @@ public class GoalPageFragment extends Fragment {
     private TextView percentTaskCompleted;
 
     private OnFragmentInteractionListener mListener;
+    private TextView titleTxtView;
 
     public GoalPageFragment() {
         // Required empty public constructor
@@ -95,12 +96,14 @@ public class GoalPageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_goal_page, container, false);
         View activity = inflater.inflate(R.layout.activity_goal_page, container, false);
 
-        TextView titleTxtView = (TextView) view.findViewById(R.id.title);
+        titleTxtView = (TextView) view.findViewById(R.id.title);
+        dueDate = (TextView) view.findViewById(R.id.dueDate);
+        dueDate.setText("Due in " + goal.daysTillDueDate() + " days");
         titleTxtView.setText(goal.getTitle());
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.subGoalRecyclerView);
         addSubGoal = (FloatingActionButton) view.findViewById(R.id.goalPageAddSubGoal);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new SubGoalAdapter(getActivity(), this.subGoalList);
+        adapter = new SubGoalAdapter(getActivity(), this.subGoalList, id);
         recyclerView.setAdapter(adapter);
         createSubGoal();
         return view;
@@ -137,6 +140,7 @@ public class GoalPageFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        myDB.closeDb();
     }
 
     /**

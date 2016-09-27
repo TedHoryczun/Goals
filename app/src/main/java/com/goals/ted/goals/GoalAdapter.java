@@ -77,7 +77,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                             public void onClick(DialogInterface dialog, int which) {
                                 int position = viewHolder.getAdapterPosition();
                                 Goal currentGoal = goalList.get(position);
-                                db.deleteRecord(currentGoal.getId());
+                                db.deleteRecord(MyDB.EMP_TABLE, currentGoal.getId());
                                 goalList.remove(position);
                                 notifyItemRemoved(position);
                             }

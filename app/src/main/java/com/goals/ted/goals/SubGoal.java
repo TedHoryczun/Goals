@@ -4,6 +4,16 @@ public class SubGoal {
     private String title;
     private boolean isChecked;
 
+    public boolean isEditMode() {
+        return isEditMode;
+    }
+
+    public void setEditMode(boolean editMode) {
+        isEditMode = editMode;
+    }
+
+    private boolean isEditMode;
+
     public int getId() {
         return id;
     }
@@ -33,5 +43,10 @@ public class SubGoal {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    @Override
+    public String toString() {
+        return getTitle();
     }
 }

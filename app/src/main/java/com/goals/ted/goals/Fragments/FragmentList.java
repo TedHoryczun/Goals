@@ -41,6 +41,7 @@ public class FragmentList extends Fragment {
     private FloatingActionButton fab;
 
     private OnFragmentInteractionListener mListener;
+    private MyDB db;
 
     public FragmentList() {
         // Required empty public constructor
@@ -82,7 +83,7 @@ public class FragmentList extends Fragment {
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        MyDB db = new MyDB(getActivity());
+        db = new MyDB(getActivity());
         List<Goal> goalList = db.selectRecords();
         Calendar startDate = Calendar.getInstance();
         startDate.setTimeInMillis(System.currentTimeMillis());
@@ -121,6 +122,7 @@ public class FragmentList extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        db.closeDb();
     }
 
     /**

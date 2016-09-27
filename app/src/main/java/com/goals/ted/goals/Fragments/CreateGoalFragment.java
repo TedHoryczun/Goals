@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.StringBuilderPrinter;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.goals.ted.goals.Activities.MainActivity;
 import com.goals.ted.goals.DateFormatter;
+import com.goals.ted.goals.Dates;
 import com.goals.ted.goals.Goal;
 import com.goals.ted.goals.MyDB;
 import com.goals.ted.goals.R;
@@ -44,6 +46,8 @@ public class CreateGoalFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String HOUR_PM = "PM";
+    private static final String HOUR_AM = "AM";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -138,12 +142,25 @@ public class CreateGoalFragment extends Fragment {
                 TimePickerDialog dialog = new TimePickerDialog(v.getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        String isAmOrPm = HOUR_AM;
+                        StringBuilder formattedMinute = new StringBuilder();
+                        int formattedHour = hourOfDay;
+
                         dueDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         dueDate.set(Calendar.MINUTE, minute);
-                        timePicker.setText(hourOfDay + ":"+ minute);
+                        formattedMinute.append(minute);
+                        if(minute == 0){
+                            formattedMinute.append(0);
+                        }
+                        if(formattedHour > 12 || formattedHour == 0){
+                            isAmOrPm = HOUR_PM;
+                            Dates dates = new Dates();
+                            formattedHour = dates.convert24To12Format(hourOfDay);
+                        }
+                        timePicker.setText(formattedHour + ":"+ formattedMinute + " " + isAmOrPm);
 
                     }
-                }, currentTime.get(Calendar.HOUR_OF_DAY), currentTime.get(Calendar.MINUTE), false);
+                }, 12, 00, false);
                 dialog.show();
 
             }

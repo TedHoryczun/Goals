@@ -37,17 +37,17 @@
                     android:background="@color/colorPrimary">
 
 
-                    <TextView
+                    <com.dinuscxj.progressbar.CircleProgressBar
                         android:id="@+id/goalPagePercentComplete"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        app:progress_start_color="@color/colorAccent"
+                        app:progress_text_color="#ffffff"
+                        android:layout_marginTop="50dp"
+                        app:progress_text_size="50sp"
+                        app:progress_stroke_width="5dp"
                         android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:paddingTop="40dp"
-                        android:paddingLeft="30dp"
-                        android:text="30%"
-                        android:textColor="#ffffff"
-                        android:textSize="60sp" />
+                        android:progress="80"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp" />
 
                 </RelativeLayout>
 

@@ -37,11 +37,13 @@ public class MyDB {
         database = helper.getWritableDatabase();
         this.context = context;
     }
+    public void closeDb(){
+        database.close();
+    }
     public void subGoalUpdate(String key, int subGoalId, String content){
         ContentValues values = new ContentValues();
         values.put(key, content);
         database.update(SUB_TABLE, values, SUB_ID +"=?", new String[]{String.valueOf(subGoalId)});
-
     }
     public void changeCheckedSubGoal(int id, boolean isChecked){
         ContentValues values = new ContentValues();
@@ -153,10 +155,10 @@ public class MyDB {
         }
         return goals;
     }
-    public void deleteRecord(int id){
-        database.delete(EMP_TABLE, EMP_ID + " =" + id, null);
+    public void deleteRecord(String table, int id){
+        database.delete(table, EMP_ID + " =" + id, null);
     }
-    public void deleteSubGoal(int id){
-        database.delete(SUB_TABLE, SUB_ID + " =" + id, null);
-    }
+    //public void deleteSubGoal(int id){
+        //database.delete(SUB_TABLE, SUB_ID + " =" + id, null);
+    //}
 }

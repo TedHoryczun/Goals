@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.dinuscxj.progressbar.CircleProgressBar;
 import com.goals.ted.goals.Fragments.GoalPageFragment;
 import com.goals.ted.goals.Goal;
 import com.goals.ted.goals.MyDB;
@@ -24,7 +25,7 @@ public class GoalPage extends AppCompatActivity implements GoalPageFragment.OnFr
     private Goal goal;
     private FloatingActionButton createSubGoal;
 
-    private TextView percentTaskCompleted;
+    private CircleProgressBar percentTaskCompleted;
     private TextView goalTitleTxtView;
 
     @Override
@@ -46,8 +47,8 @@ public class GoalPage extends AppCompatActivity implements GoalPageFragment.OnFr
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-        percentTaskCompleted = (TextView) findViewById(R.id.goalPagePercentComplete);
-        percentTaskCompleted.setText(goal.percentageComplete() + "%");
+        percentTaskCompleted = (CircleProgressBar) findViewById(R.id.goalPagePercentComplete);
+        percentTaskCompleted.setProgress(goal.percentageComplete());
         Fragment fragment = GoalPageFragment.newInstance(String.valueOf(id),  "hello");
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment)
         .commit();
