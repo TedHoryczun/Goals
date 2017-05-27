@@ -35,14 +35,13 @@ class GoalAdapter(private val context: Context, private val goalList: MutableLis
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
         val viewHolder = ViewHolder(view)
-        val position: Int = viewHolder.adapterPosition
 
         view.setOnClickListener {
-            val currentGoal = goalList[position]
+            val currentGoal = goalList[viewHolder.adapterPosition]
             context.startActivity(context.intentFor<GoalPage>("id" to currentGoal.id))
         }
         view.setOnLongClickListener {
-            displayDeleteDialog(position)
+            displayDeleteDialog(viewHolder.adapterPosition)
             true
         }
         return viewHolder
