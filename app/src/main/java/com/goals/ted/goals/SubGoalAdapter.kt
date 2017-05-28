@@ -43,9 +43,9 @@ class SubGoalAdapter(private val context: Context, val subGoalList: MutableList<
             val isChecked = subGoal.isChecked
             checkBox.isChecked = isChecked
             setTextStrike(holder, isChecked)
-            if (!title?.toString()?.isEmpty()!!) {
+            if (!title.toString().isEmpty()) {
 
-                holder.title.setText(title!!.toString())
+                holder.title.setText(title.toString())
             } else {
                 holder.title.hint = "Enter a title"
             }

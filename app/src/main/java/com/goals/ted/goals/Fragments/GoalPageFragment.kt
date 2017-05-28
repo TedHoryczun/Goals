@@ -38,7 +38,7 @@ class GoalPageFragment : Fragment() {
 
     private var adapter: SubGoalAdapter? = null
     private val myDB: MyDB by lazy{MyDB(context)}
-    private val goal: Goal by lazy{myDB.selectByID(id!!.toInt())}
+    private lateinit var goal: Goal
     private val subGoalList: ArrayList<SubGoal> by lazy{myDB.selectSubGoalsById(id!!.toInt()) as ArrayList<SubGoal>}
 
 
@@ -61,6 +61,7 @@ class GoalPageFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        goal = myDB.selectByID(id?.toInt())!!
 
         dueDate.text = "Due in ${goal.daysTillDueDate()} days"
         title.text = goal.title

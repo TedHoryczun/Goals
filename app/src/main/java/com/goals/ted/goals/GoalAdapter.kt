@@ -62,7 +62,7 @@ class GoalAdapter(private val context: Context, private val goalList: MutableLis
         val subGoals = db.selectSubGoalsById(currentGoal.id)
         val subGoalSize = subGoals.size
         var howManyChecked = 0
-        subGoals.filter { it.isChecked == true }
+        subGoals.filter { it.isChecked }
                 .forEach { howManyChecked += 1 }
 
         with(holder) {
