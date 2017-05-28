@@ -3,36 +3,25 @@ package com.goals.ted.goals.Fragments
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
-import android.util.StringBuilderPrinter
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.DatePicker
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.TimePicker
-import android.widget.Toast
 
 import com.goals.ted.goals.Activities.MainActivity
 import com.goals.ted.goals.DateFormatter
 import com.goals.ted.goals.Dates
-import com.goals.ted.goals.Goal
 import com.goals.ted.goals.MyDB
 import com.goals.ted.goals.R
 import kotlinx.android.synthetic.main.fragment_create_goal.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
-import java.util.ArrayList
 import java.util.Calendar
 
 /**
