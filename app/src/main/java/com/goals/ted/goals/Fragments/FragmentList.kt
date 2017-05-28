@@ -84,7 +84,7 @@ class FragmentList : Fragment() {
     override fun onDetach() {
         super.onDetach()
         mListener = null
-        db!!.closeDb()
+        db.closeDb()
     }
 
     interface OnFragmentInteractionListener {

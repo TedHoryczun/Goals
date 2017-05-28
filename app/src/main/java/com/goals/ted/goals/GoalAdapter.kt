@@ -1,11 +1,7 @@
 package com.goals.ted.goals
 
 import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +9,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 
 import com.goals.ted.goals.Activities.GoalPage
-import kotlinx.android.synthetic.main.fragment_goal_page.view.*
 import kotlinx.android.synthetic.main.item.view.*
-import org.jetbrains.anko.AlertDialogBuilder
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
 
@@ -88,12 +82,12 @@ class GoalAdapter(private val context: Context, private val goalList: MutableLis
         }
     }
 
-    fun isGoalTitleTooLong(title: String): Boolean {
+    fun isGoalTitleTooLong(title: String?): Boolean {
         val MAX_STRING_CHAR_WIDTH = 12
-        return title.length >= MAX_STRING_CHAR_WIDTH
+        return title?.length!! >= MAX_STRING_CHAR_WIDTH
     }
 
-    private fun shrinkAndEditTitle(goalTitle: String): String {
+    private fun shrinkAndEditTitle(goalTitle: String?): String {
         val shunkAndEditedTitle: String
         val stringBuilder = shrinkTitleToMax(goalTitle)
         stringBuilder.append("..")
@@ -101,10 +95,10 @@ class GoalAdapter(private val context: Context, private val goalList: MutableLis
         return shunkAndEditedTitle
     }
 
-    private fun shrinkTitleToMax(goalTitle: String): StringBuilder {
+    private fun shrinkTitleToMax(goalTitle: String?): StringBuilder {
         val stringBuilder = StringBuilder()
         for (i in 0..MAX_TITLE_WIDTH - 1) {
-            val selectedChar = goalTitle[i]
+            val selectedChar = goalTitle?.get(i)
             stringBuilder.append(selectedChar)
         }
         return stringBuilder
