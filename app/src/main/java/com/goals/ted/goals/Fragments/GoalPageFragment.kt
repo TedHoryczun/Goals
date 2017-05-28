@@ -22,14 +22,6 @@ import org.jetbrains.anko.toast
 
 import kotlin.collections.ArrayList
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [GoalPageFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [GoalPageFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class GoalPageFragment : Fragment() {
 
     // TODO: Rename and change types of parameters
