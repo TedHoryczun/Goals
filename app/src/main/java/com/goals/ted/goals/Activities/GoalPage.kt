@@ -45,6 +45,7 @@ class GoalPage : AppCompatActivity(), GoalPageFragment.OnFragmentInteractionList
         val fragment = GoalPageFragment.newInstance(id.toString(), "hello")
         supportFragmentManager.beginTransaction().replace(R.id.container, fragment)
                 .commit()
+        goalPageAddSubGoal.setOnClickListener({fragment.createSubGoal()})
     }
 
     override fun onFragmentInteraction(uri: Uri) {
