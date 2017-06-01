@@ -67,7 +67,6 @@ class GoalPageFragment : Fragment() {
             myDB.createSubGoal(goal.id, "", false)
             subGoalList.add(SubGoal(goal.id, "", false))
             adapter?.notifyItemInserted(subGoalList.size + 1)
-            context.toast("clicked")
     }
 
     // TODO: Rename method, update argument and hook method into UI event
