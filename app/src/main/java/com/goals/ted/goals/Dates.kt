@@ -74,12 +74,8 @@ open class Dates : GoalDates() {
     }
 
     private fun isGoalCompleted(daysTillDueDate: Long): Boolean {
-        val isCompleted: Boolean
-        if (daysTillDueDate == GOAL_COMPLETE.toLong() || daysTillDueDate < 0) {
-            isCompleted = true
-        } else {
-            isCompleted = false
-        }
+        val isCompleted: Boolean = daysTillDueDate == GOAL_COMPLETE.toLong()
+                || daysTillDueDate < 0
         return isCompleted
     }
 
