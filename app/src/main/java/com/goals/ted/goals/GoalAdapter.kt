@@ -75,10 +75,18 @@ class GoalAdapter(private val context: Context, private val goalList: MutableLis
             } else {
                 title.text = goalTitle
             }
-            val daysTillDueDate: String = currentGoal.daysTillDueDate().toString()
-            dueDate.text = "Due in $daysTillDueDate days"
+            val daysTillDueDate: Long = currentGoal.daysTillDueDate()
+            displayDueDate(daysTillDueDate, dueDate)
             checks.text = "$howManyChecked/$subGoalSize"
             progressBar.progress = currentGoal.percentageComplete()
+        }
+    }
+
+    private fun displayDueDate(daysTillDueDate: Long, dueDate: TextView) {
+        if(daysTillDueDate > 0){
+            dueDate.text = "Due in $daysTillDueDate days"
+        }else{
+            dueDate.text = "Too Late!"
         }
     }
 
