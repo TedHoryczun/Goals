@@ -18,7 +18,7 @@
         <activity
             android:name=".Activities.CreateGoalActivity"
             android:parentActivityName=".Activities.MainActivity" />
-        <activity android:name=".Activities.GoalPage"></activity>
+        <activity android:name=".Activities.GoalPageActivity.GoalPage"></activity>
     </application>
 
 </manifest>

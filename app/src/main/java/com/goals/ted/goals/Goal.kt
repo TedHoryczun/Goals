@@ -11,6 +11,7 @@ import java.util.Calendar
 class Goal(private val context: Context, var title: String?, startDate: Calendar, endDate: Calendar) : Dates() {
     var id: Int = 0
     val allSubGoals: List<SubGoal>
+    constructor(context: Context) : this(context, "title", Calendar.getInstance(), Calendar.getInstance())
 
     init {
         this.endDate = endDate

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 
-import com.goals.ted.goals.Activities.GoalPage
+import com.goals.ted.goals.Activities.GoalPageActivity.GoalPage
 import kotlinx.android.synthetic.main.item.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
