@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 
-import com.goals.ted.goals.Fragments.CreateGoalFragment
+import com.goals.ted.goals.Fragments.CreateGoal.CreateGoalFragment
 import com.goals.ted.goals.R
 import kotlinx.android.synthetic.main.activity_create_goal.*
 

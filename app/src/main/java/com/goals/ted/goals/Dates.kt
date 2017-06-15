@@ -11,6 +11,9 @@ open class Dates : GoalDates() {
         formattedHour -= 12
         if (formattedHour < 0) {
             formattedHour *= -1
+        }else if(hour == 12){
+            formattedHour =12
+
         }
         return formattedHour
     }

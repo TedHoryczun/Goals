@@ -1,4 +1,4 @@
-package com.goals.ted.goals.Fragments
+package com.goals.ted.goals.Fragments.CreateGoal
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -12,10 +12,9 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-
 import com.goals.ted.goals.Activities.MainActivity
+
 import com.goals.ted.goals.DateFormatter
-import com.goals.ted.goals.Dates
 import com.goals.ted.goals.MyDB
 import com.goals.ted.goals.R
 import kotlinx.android.synthetic.main.fragment_create_goal.*
@@ -32,15 +31,15 @@ import java.util.Calendar
  * Use the [CreateGoalFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CreateGoalFragment : Fragment() {
+class CreateGoalFragment : Fragment(), CreateGoalMVP.View {
 
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
     private var mParam2: String? = null
     private var currentTime: Calendar? = null
-    private var dueDate: Calendar? = null
+    private var dueDate: Calendar = Calendar.getInstance()
     private var mListener: OnFragmentInteractionListener? = null
-    val db: MyDB by lazy{MyDB(context)}
+    val presenter by lazy {CreateGoalPresenter(context, this)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,49 +64,44 @@ class CreateGoalFragment : Fragment() {
         currentTime?.timeInMillis = System.currentTimeMillis()
         val formattedCurrentDate = DateFormatter.convertDateToDateFormat(currentTime)
         datePicker.setText(formattedCurrentDate)
-        dueDate = Calendar.getInstance()
 
-        timePickerDialog()
-        datePickerDialog()
-    }
-
-    fun datePickerDialog() {
-        datePicker!!.setOnClickListener { v ->
-                val dialog = DatePickerDialog(v.context, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                    dueDate?.set(Calendar.YEAR, year)
-                    dueDate?.set(Calendar.MONTH, monthOfYear)
-                    dueDate?.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                    val formattedDate = DateFormatter.convertDateToDateFormat(dueDate)
-                    datePicker?.setText(formattedDate)
-                }, currentTime!!.get(Calendar.YEAR), currentTime!!.get(Calendar.MONTH), currentTime!!.get(Calendar.DAY_OF_MONTH))
-                dialog.show()
+        timePicker.setOnClickListener {
+            presenter.launchTimePicker()
         }
-
-    }
-
-    fun timePickerDialog() {
-        timePicker!!.setOnClickListener { v ->
-            val dialog = TimePickerDialog(v.context, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-                var isAmOrPm = HOUR_AM
-                val formattedMinute = StringBuilder()
-                var formattedHour = hourOfDay
-
-                dueDate?.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                dueDate?.set(Calendar.MINUTE, minute)
-                formattedMinute.append(minute)
-                if (minute == 0) {
-                    formattedMinute.append(0)
-                }
-                if (formattedHour > 12 || formattedHour == 0) {
-                    isAmOrPm = HOUR_PM
-                    formattedHour = Dates().convert24To12Format(hourOfDay)
-                }
-                timePicker.setText("$formattedHour:$formattedMinute $isAmOrPm")
-            }, 12, 0, false)
-            dialog.show()
+        datePicker.setOnClickListener {
+            presenter.launchDatePicker()
         }
     }
 
+    override fun launchDatePicker() {
+        val dialog = DatePickerDialog(context, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            dueDate = presenter.setDate(year, monthOfYear, dayOfMonth)
+            val formattedDate = DateFormatter.convertDateToDateFormat(dueDate)
+            datePicker?.setText(formattedDate)
+        }, currentTime!!.get(Calendar.YEAR), currentTime!!.get(Calendar.MONTH), currentTime!!.get(Calendar.DAY_OF_MONTH))
+        dialog.show()
+    }
+
+    override fun launchTimePicker() {
+        val dialog = TimePickerDialog(context, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+            dueDate = presenter.setTime(hourOfDay, minute)
+
+        }, 12, 0, false)
+        dialog.show()
+    }
+
+    override fun setTimePickerText(formattedHour: Int, formattedMinute: String, amOrPm: String) {
+        timePicker.setText("$formattedHour:$formattedMinute $amOrPm")
+    }
+
+    override fun displayListOfGoals() {
+        startActivity(context.intentFor<MainActivity>())
+
+    }
+
+    override fun displayEmptyTitleError() {
+        context.toast("You can't have a empty title")
+    }
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         if (mListener != null) {
@@ -139,14 +133,8 @@ class CreateGoalFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.save -> {
-                val titleTxt = goalTitle?.text.toString()
-                if (!titleTxt.isEmpty()) {
-                    db.createRecord(titleTxt, currentTime!!.timeInMillis, dueDate!!.timeInMillis)
-                    startActivity(context.intentFor<MainActivity>())
-                } else {
-                    context.toast("You can't have a empty title")
+                presenter.saveGoal(goalTitle.text.toString(), currentTime?.timeInMillis, dueDate.timeInMillis)
 
-                }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -158,8 +146,6 @@ class CreateGoalFragment : Fragment() {
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private val ARG_PARAM1 = "param1"
         private val ARG_PARAM2 = "param2"
-        private val HOUR_PM = "PM"
-        private val HOUR_AM = "AM"
 
 
         /**
